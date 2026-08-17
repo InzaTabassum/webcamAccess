@@ -11,7 +11,7 @@ import java.awt.image.DataBufferByte;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void startCamera() {
 
         OpenCV.loadLocally();
 
@@ -39,20 +39,39 @@ public class App {
 
             camera.read(frame);
 
-            BufferedImage image = new BufferedImage(frame.cols(), frame.rows(), BufferedImage.TYPE_3BYTE_BGR);
+            BufferedImage image =
+                    new BufferedImage(
+                            frame.cols(),
+                            frame.rows(),
+                            BufferedImage.TYPE_3BYTE_BGR
+                    );
 
-            byte[] data = new byte[(int) frame.total() * frame.channels()];
+            byte[] data =
+                    new byte[(int) frame.total() * frame.channels()];
 
             frame.get(0, 0, data);
 
-            byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+            byte[] pixels =
+                    ((DataBufferByte) image
+                            .getRaster()
+                            .getDataBuffer())
+                            .getData();
 
-            System.arraycopy(data, 0, pixels, 0, data.length);
+            System.arraycopy(
+                    data,
+                    0,
+                    pixels,
+                    0,
+                    data.length
+            );
 
             label.setIcon(new ImageIcon(image));
         }
 
-
         camera.release();
+    }
+
+    public static void main(String[] args) {
+        startCamera();
     }
 }
